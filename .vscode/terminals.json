@@ -1,0 +1,13 @@
+{
+  "autorun": true,
+  "terminals": [
+    {
+      "name": "api",
+      "cwd": "[workspaceFolder]/api"
+    },
+    {
+      "name": "www",
+      "cwd": "[workspaceFolder]/www"
+    }
+  ]
+}
