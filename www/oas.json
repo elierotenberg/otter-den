@@ -1,0 +1,38 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "version": "4.7.0",
+    "title": "fastify-swagger"
+  },
+  "components": {
+    "schemas": {}
+  },
+  "paths": {
+    "/info": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "up_since": {
+                      "format": "date-time",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "up_since"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,13 +1,16 @@
 import fastify from "fastify";
 import swagger from "fastify-swagger";
+import cors from "fastify-cors";
 
 import { routes } from "./routes";
-import { TConfig } from "./schemas/Config";
+import { Config } from "./schemas/Config";
 
-export const start = async (config: TConfig): Promise<void> => {
+export const start = async (config: Config): Promise<void> => {
   const app = fastify({
     logger: true,
   });
+
+  app.register(cors, { origin: config.http.corsOrigins });
 
   app.register(swagger, {
     openapi: {},

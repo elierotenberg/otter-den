@@ -10,12 +10,13 @@ const Config = Type.Object({
   http: Type.Object({
     host: Type.String(),
     port: Type.Integer(),
+    corsOrigins: Type.Array(Type.String()),
   }),
 });
 
-export type TConfig = Static<typeof Config>;
+export type Config = Static<typeof Config>;
 
-export const readFromEnv = async (): Promise<TConfig> => {
+export const readFromEnv = async (): Promise<Config> => {
   const config = load(
     await promises.readFile(
       join(
@@ -31,5 +32,5 @@ export const readFromEnv = async (): Promise<TConfig> => {
     ),
   );
   ajv.validate(Config, config);
-  return config as TConfig;
+  return config as Config;
 };

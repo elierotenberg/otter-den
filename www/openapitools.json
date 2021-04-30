@@ -1,0 +1,21 @@
+{
+  "$schema": "./node_modules/@openapitools/openapi-generator-cli/config.schema.json",
+  "spaces": 2,
+  "generator-cli": {
+    "version": "4.3.1",
+    "generators": {
+      "v1": {
+        "generatorName": "typescript-fetch",
+        "glob": "oas.json",
+        "output": "api-client",
+        "skipValidateSpec": true,
+        "additionalProperties": {
+          "supportsES6": true,
+          "npmName": "otter-den-api-client",
+          "typescriptThreePlus": true,
+          "generateAliasAsModel": true
+        }
+      }
+    }
+  }
+}
