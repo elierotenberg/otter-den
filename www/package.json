@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "dev:oas:fetch-spec": "ts-node src/scripts/fetch-oas-spec.ts --in http://localhost:3001/oas/json --out oas.json",
-    "dev:oas:gen-client": "openapi-generator-cli generate",
+    "dev:oas:gen-client": "openapi-generator-cli generate && cd api-client && npm i",
     "dev:oas:install": "npm i file:api-client",
     "dev:oas": "npm run dev:oas:fetch-spec && npm run dev:oas:gen-client && npm run dev:oas:install"
   },
