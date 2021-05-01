@@ -6,10 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "postinstall": "npm run dev:oas:install",
     "dev:oas:fetch-spec": "ts-node src/scripts/fetch-oas-spec.ts --in http://localhost:3001/oas/json --out oas.json",
-    "dev:oas:gen-client": "openapi-generator-cli generate && cd api-client && npm i",
-    "dev:oas:install": "npm i file:api-client",
-    "dev:oas": "npm run dev:oas:fetch-spec && npm run dev:oas:gen-client && npm run dev:oas:install"
+    "dev:oas:gen-client": "openapi-generator-cli generate",
+    "dev:oas:build-client": "cd api-client && ncu -u && npm i",
+    "dev:oas:install": "npm run dev:oas:build-client && npm install file:api-client",
+    "dev:oas": "npm run dev:oas:fetch-spec && npm run dev:oas:gen-client && npm run dev:oas:build-client && npm run dev:oas:install"
   },
   "dependencies": {
     "@chakra-ui/react": "^1.6.0",
@@ -24,7 +26,6 @@
     "framer-motion": "^4.1.11",
     "next": "10.2.0",
     "otter-den-api-client": "file:api-client",
-    "otter-den-oas": "file:api-client",
     "react": "17.0.2",
     "react-color": "^2.19.3",
     "react-dom": "17.0.2",
