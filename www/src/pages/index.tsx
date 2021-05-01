@@ -25,7 +25,6 @@ const HomePage: FunctionComponent = () => {
           <Text>Server is up since {info.upSince.toString()}</Text>
         ),
       })}
-      <Code></Code>
     </Flex>
   );
 };
