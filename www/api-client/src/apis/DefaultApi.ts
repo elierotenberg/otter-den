@@ -27,9 +27,16 @@ import {
     InlineResponse2002,
     InlineResponse2002FromJSON,
     InlineResponse2002ToJSON,
+    InlineResponse2003,
+    InlineResponse2003FromJSON,
+    InlineResponse2003ToJSON,
 } from '../models';
 
 export interface DenLightLightIdDeleteRequest {
+    lightId: string;
+}
+
+export interface DenLightLightIdInfoGetRequest {
     lightId: string;
 }
 
@@ -45,12 +52,36 @@ export class DefaultApi extends runtime.BaseAPI {
 
     /**
      */
-    async denLightLightIdDeleteRaw(requestParameters: DenLightLightIdDeleteRequest): Promise<runtime.ApiResponse<InlineResponse2002>> {
+    async denLightGetRaw(): Promise<runtime.ApiResponse<Array<InlineResponse2001>>> {
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/den/light`,
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(InlineResponse2001FromJSON));
+    }
+
+    /**
+     */
+    async denLightGet(): Promise<Array<InlineResponse2001>> {
+        const response = await this.denLightGetRaw();
+        return await response.value();
+    }
+
+    /**
+     */
+    async denLightLightIdDeleteRaw(requestParameters: DenLightLightIdDeleteRequest): Promise<runtime.ApiResponse<InlineResponse2003>> {
         if (requestParameters.lightId === null || requestParameters.lightId === undefined) {
             throw new runtime.RequiredError('lightId','Required parameter requestParameters.lightId was null or undefined when calling denLightLightIdDelete.');
         }
 
-        const queryParameters: runtime.HTTPQuery = {};
+        const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -61,24 +92,51 @@ export class DefaultApi extends runtime.BaseAPI {
             query: queryParameters,
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => InlineResponse2002FromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => InlineResponse2003FromJSON(jsonValue));
     }
 
     /**
      */
-    async denLightLightIdDelete(requestParameters: DenLightLightIdDeleteRequest): Promise<InlineResponse2002> {
+    async denLightLightIdDelete(requestParameters: DenLightLightIdDeleteRequest): Promise<InlineResponse2003> {
         const response = await this.denLightLightIdDeleteRaw(requestParameters);
         return await response.value();
     }
 
     /**
      */
-    async denLightLightIdPostRaw(requestParameters: DenLightLightIdPostRequest): Promise<runtime.ApiResponse<InlineResponse2001>> {
+    async denLightLightIdInfoGetRaw(requestParameters: DenLightLightIdInfoGetRequest): Promise<runtime.ApiResponse<void>> {
+        if (requestParameters.lightId === null || requestParameters.lightId === undefined) {
+            throw new runtime.RequiredError('lightId','Required parameter requestParameters.lightId was null or undefined when calling denLightLightIdInfoGet.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        const response = await this.request({
+            path: `/den/light/{lightId}/info`.replace(`{${"lightId"}}`, encodeURIComponent(String(requestParameters.lightId))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        });
+
+        return new runtime.VoidApiResponse(response);
+    }
+
+    /**
+     */
+    async denLightLightIdInfoGet(requestParameters: DenLightLightIdInfoGetRequest): Promise<void> {
+        await this.denLightLightIdInfoGetRaw(requestParameters);
+    }
+
+    /**
+     */
+    async denLightLightIdPostRaw(requestParameters: DenLightLightIdPostRequest): Promise<runtime.ApiResponse<InlineResponse2002>> {
         if (requestParameters.lightId === null || requestParameters.lightId === undefined) {
             throw new runtime.RequiredError('lightId','Required parameter requestParameters.lightId was null or undefined when calling denLightLightIdPost.');
         }
 
-        const queryParameters: runtime.HTTPQuery = {};
+        const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -92,12 +150,12 @@ export class DefaultApi extends runtime.BaseAPI {
             body: InlineObjectToJSON(requestParameters.inlineObject),
         });
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => InlineResponse2001FromJSON(jsonValue));
+        return new runtime.JSONApiResponse(response, (jsonValue) => InlineResponse2002FromJSON(jsonValue));
     }
 
     /**
      */
-    async denLightLightIdPost(requestParameters: DenLightLightIdPostRequest): Promise<InlineResponse2001> {
+    async denLightLightIdPost(requestParameters: DenLightLightIdPostRequest): Promise<InlineResponse2002> {
         const response = await this.denLightLightIdPostRaw(requestParameters);
         return await response.value();
     }
@@ -105,7 +163,7 @@ export class DefaultApi extends runtime.BaseAPI {
     /**
      */
     async infoGetRaw(): Promise<runtime.ApiResponse<InlineResponse200>> {
-        const queryParameters: runtime.HTTPQuery = {};
+        const queryParameters: any = {};
 
         const headerParameters: runtime.HTTPHeaders = {};
 

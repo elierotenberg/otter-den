@@ -1,11 +1,14 @@
 import { Static, Type } from "@sinclair/typebox";
 
-export const Light = Type.Union([
-  Type.Object({
-    lightId: Type.String(),
-    kind: Type.Literal("lifx"),
-    ipv4: Type.String(),
-  }),
-]);
+enum LifxKind {
+  Lifx = "lifx",
+}
+
+export const Light = Type.Object({
+  lightId: Type.String(),
+  label: Type.String(),
+  kind: Type.Enum(LifxKind),
+  ipv4: Type.String(),
+});
 
 export type Light = Static<typeof Light>;

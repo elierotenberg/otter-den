@@ -8,7 +8,7 @@
     "start": "next start",
     "postinstall": "npm run dev:oas:install",
     "dev:oas:fetch-spec": "ts-node src/scripts/fetch-oas-spec.ts --in http://localhost:3001/oas/json --out oas.json",
-    "dev:oas:gen-client": "openapi-generator-cli generate",
+    "dev:oas:gen-client": "rm -rf api-client && openapi-generator-cli generate",
     "dev:oas:build-client": "cd api-client && ncu -u && npm i",
     "dev:oas:install": "npm run dev:oas:build-client && npm install file:api-client",
     "dev:oas": "npm run dev:oas:fetch-spec && npm run dev:oas:gen-client && npm run dev:oas:build-client && npm run dev:oas:install"
@@ -22,7 +22,7 @@
     "@types/node": "^15.0.1",
     "@types/react": "^17.0.4",
     "@types/react-dom": "^17.0.3",
-    "ajv": "^6.12.6",
+    "ajv": "^8.2.0",
     "framer-motion": "^4.1.11",
     "next": "10.2.0",
     "otter-den-api-client": "file:api-client",
@@ -49,6 +49,6 @@
     "prettier": "^2.2.1",
     "ts-node": "^9.1.1",
     "typescript": "^4.2.4",
-    "yargs": "^13.3.2"
+    "yargs": "^16.2.0"
   }
 }

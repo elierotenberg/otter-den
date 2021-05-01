@@ -1,5 +1,5 @@
 import { Alert } from "@chakra-ui/alert";
-import { Heading, Flex, Text, Code } from "@chakra-ui/layout";
+import { Heading, Flex, Text } from "@chakra-ui/layout";
 import { Spinner } from "@chakra-ui/spinner";
 import React, { FunctionComponent } from "react";
 import { useQuery } from "react-query";

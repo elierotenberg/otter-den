@@ -9,6 +9,7 @@ import { LightParams } from "../schemas/LightParams";
 import { LightState } from "../schemas/LightState";
 import { ServerInfo } from "../schemas/ServerInfo";
 import { Lifx } from "../Lifx";
+import { hslToHsb } from "../Color";
 
 type RoutesParams = {
   readonly upSince: Date;
@@ -40,11 +41,12 @@ export const routes = ({ upSince, lights, lifx }: RoutesParams) => async (
     {
       schema: {
         response: {
-          200: Type.Array(Light),
+          200: Type.Array(Type.Pick(Light, ["lightId", "label"])),
         },
       },
     },
-    async (): Promise<Light[]> => lights,
+    async (): Promise<Pick<Light, "lightId" | "label">[]> =>
+      lights.map(({ lightId, label }) => ({ lightId, label })),
   );
 
   app.get(
@@ -96,14 +98,15 @@ export const routes = ({ upSince, lights, lifx }: RoutesParams) => async (
         throw new BadRequest(error?.message);
       }
       const { lightId } = params;
-      const { hex, brightness, period } = body;
+      const { hsl, period } = body;
       const light = lights.find((light) => light.lightId === lightId);
       if (!light) {
         throw new NotFound();
       }
       if (light.kind === "lifx") {
         const lifxLight = lifx.getLight(light.ipv4);
-        lifxLight.setColor(hex, brightness, period);
+        console.log({ hsl, period });
+        lifxLight.setColor(hslToHsb(hsl.h, hsl.s, hsl.l), period ?? null);
         return body;
       } else {
         throw new NotFound(`unknown light kind: ${light.kind}`);

@@ -4,7 +4,6 @@ import { Static, Type } from "@sinclair/typebox";
 import { Client, Light } from "lifx-lan-client";
 
 import { assert } from "./schemas";
-import { hexToHsl } from "./Color";
 
 type LifxOpts = {
   readonly debug: boolean;
@@ -55,19 +54,17 @@ export class LifxLight {
     });
 
   public setColor = (
-    hex: string,
-    brightness: number | null,
+    [h, s, b]: [h: number, s: number, b: number],
     period: number | null,
   ): void => {
     if (!period) {
-      this.light.colorRgbHex(hex, brightness ?? 50, undefined);
+      this.light.color(h, s * 100, b * 100, 3500, 0, undefined);
     } else {
-      const [h, s] = hexToHsl(hex);
-      this.light.color(h, s, 0, 3500, 0, undefined);
+      this.light.color(h, s * 100, 1, 3500, 0, undefined);
       ((this.light as unknown) as { waveform: WaveFormFunction }).waveform(
         h,
-        s,
-        brightness ?? 50,
+        s * 100,
+        b * 100,
         3500,
         false,
         period,
