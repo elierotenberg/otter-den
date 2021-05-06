@@ -1,0 +1,17 @@
+.gitignore
+.npmignore
+.openapi-generator-ignore
+README.md
+package.json
+src/apis/DefaultApi.ts
+src/apis/index.ts
+src/index.ts
+src/models/DenLightLightIdHsl.ts
+src/models/InlineObject.ts
+src/models/InlineResponse200.ts
+src/models/InlineResponse2001.ts
+src/models/InlineResponse2002.ts
+src/models/InlineResponse2003.ts
+src/models/index.ts
+src/runtime.ts
+tsconfig.json

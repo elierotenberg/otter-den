@@ -16,39 +16,32 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface InlineResponse2001
+ * @interface InlineResponse2003
  */
-export interface InlineResponse2001 {
+export interface InlineResponse2003 {
     /**
      * 
-     * @type {string}
-     * @memberof InlineResponse2001
+     * @type {boolean}
+     * @memberof InlineResponse2003
      */
-    lightId: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof InlineResponse2001
-     */
-    label: string;
+    ok: boolean;
 }
 
-export function InlineResponse2001FromJSON(json: any): InlineResponse2001 {
-    return InlineResponse2001FromJSONTyped(json, false);
+export function InlineResponse2003FromJSON(json: any): InlineResponse2003 {
+    return InlineResponse2003FromJSONTyped(json, false);
 }
 
-export function InlineResponse2001FromJSONTyped(json: any, ignoreDiscriminator: boolean): InlineResponse2001 {
+export function InlineResponse2003FromJSONTyped(json: any, ignoreDiscriminator: boolean): InlineResponse2003 {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'lightId': json['lightId'],
-        'label': json['label'],
+        'ok': json['ok'],
     };
 }
 
-export function InlineResponse2001ToJSON(value?: InlineResponse2001 | null): any {
+export function InlineResponse2003ToJSON(value?: InlineResponse2003 | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -57,8 +50,7 @@ export function InlineResponse2001ToJSON(value?: InlineResponse2001 | null): any
     }
     return {
         
-        'lightId': value.lightId,
-        'label': value.label,
+        'ok': value.ok,
     };
 }
 

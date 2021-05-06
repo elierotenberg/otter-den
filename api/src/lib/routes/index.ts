@@ -1,16 +1,23 @@
 import { FastifyInstance } from "fastify";
+import { NotFound, BadRequest } from "http-errors";
+import { Type } from "@sinclair/typebox";
 
-import { ajv } from "../schemas";
+import { assert } from "../schemas";
 import { Ack } from "../schemas/Ack";
+import { Light } from "../schemas/Light";
 import { LightParams } from "../schemas/LightParams";
 import { LightState } from "../schemas/LightState";
 import { ServerInfo } from "../schemas/ServerInfo";
+import { Lifx } from "../Lifx";
+import { hslToHsb } from "../Color";
 
 type RoutesParams = {
   readonly upSince: Date;
+  readonly lights: Light[];
+  readonly lifx: Lifx;
 };
 
-export const routes = ({ upSince }: RoutesParams) => async (
+export const routes = ({ upSince, lights, lifx }: RoutesParams) => async (
   app: FastifyInstance,
 ): Promise<void> => {
   app.get(
@@ -29,6 +36,49 @@ export const routes = ({ upSince }: RoutesParams) => async (
     },
   );
 
+  app.get(
+    "/den/light",
+    {
+      schema: {
+        response: {
+          200: Type.Array(Type.Pick(Light, ["lightId", "label"])),
+        },
+      },
+    },
+    async (): Promise<Pick<Light, "lightId" | "label">[]> =>
+      lights.map(({ lightId, label }) => ({ lightId, label })),
+  );
+
+  app.get(
+    "/den/light/:lightId/info",
+    {
+      schema: {
+        params: LightParams,
+      },
+    },
+    async ({ params }) => {
+      try {
+        assert(params, LightParams);
+      } catch (error) {
+        throw new BadRequest();
+      }
+      const { lightId } = params;
+      const light = lights.find((light) => light.lightId === lightId);
+      if (!light) {
+        throw new NotFound();
+      }
+      if (light.kind === "lifx") {
+        const lifxLight = lifx.getLight(light.ipv4);
+        return {
+          kind: "lifx",
+          state: await lifxLight.getState(),
+        };
+      } else {
+        throw new NotFound(`unknown light kind: ${light.kind}`);
+      }
+    },
+  );
+
   app.post(
     "/den/light/:lightId",
     {
@@ -40,11 +90,27 @@ export const routes = ({ upSince }: RoutesParams) => async (
         },
       },
     },
-    async (request): Promise<LightState> => {
-      ajv.validate(request.params as Record<string, unknown>, LightParams);
-      ajv.validate(request.body as Record<string, unknown>, LightState);
-      const lightState = request.body as LightState;
-      return lightState;
+    async ({ params, body }): Promise<LightState> => {
+      try {
+        assert(params, LightParams);
+        assert(body, LightState);
+      } catch (error) {
+        throw new BadRequest(error?.message);
+      }
+      const { lightId } = params;
+      const { hsl, period } = body;
+      const light = lights.find((light) => light.lightId === lightId);
+      if (!light) {
+        throw new NotFound();
+      }
+      if (light.kind === "lifx") {
+        const lifxLight = lifx.getLight(light.ipv4);
+        console.log({ hsl, period });
+        lifxLight.setColor(hslToHsb(hsl.h, hsl.s, hsl.l), period ?? null);
+        return body;
+      } else {
+        throw new NotFound(`unknown light kind: ${light.kind}`);
+      }
     },
   );
 
@@ -58,10 +124,26 @@ export const routes = ({ upSince }: RoutesParams) => async (
         },
       },
     },
-    async (): Promise<Ack> => {
-      return {
-        ok: true,
-      };
+    async ({ params }): Promise<Ack> => {
+      try {
+        assert(params, LightParams);
+      } catch (error) {
+        throw new BadRequest(error?.message);
+      }
+      const { lightId } = params;
+      const light = lights.find((light) => light.lightId === lightId);
+      if (!light) {
+        throw new NotFound();
+      }
+      if (light.kind === "lifx") {
+        const lifxLight = lifx.getLight(light.ipv4);
+        lifxLight.off();
+        return {
+          ok: true,
+        };
+      } else {
+        throw new NotFound(`unknown light kind: ${light.kind}`);
+      }
     },
   );
 };

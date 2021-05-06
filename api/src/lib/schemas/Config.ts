@@ -4,7 +4,9 @@ import { join } from "path";
 import { Static, Type } from "@sinclair/typebox";
 import { load } from "js-yaml";
 
-import { ajv } from ".";
+import { Light } from "./Light";
+
+import { assert } from ".";
 
 const Config = Type.Object({
   http: Type.Object({
@@ -12,6 +14,7 @@ const Config = Type.Object({
     port: Type.Integer(),
     corsOrigins: Type.Array(Type.String()),
   }),
+  lights: Type.Array(Light),
 });
 
 export type Config = Static<typeof Config>;
@@ -31,6 +34,6 @@ export const readFromEnv = async (): Promise<Config> => {
       { encoding: "utf-8" },
     ),
   );
-  ajv.validate(Config, config);
-  return config as Config;
+  assert(config, Config);
+  return config;
 };

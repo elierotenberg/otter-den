@@ -13,6 +13,13 @@
  */
 
 import { exists, mapValues } from '../runtime';
+import {
+    DenLightLightIdHsl,
+    DenLightLightIdHslFromJSON,
+    DenLightLightIdHslFromJSONTyped,
+    DenLightLightIdHslToJSON,
+} from './';
+
 /**
  * 
  * @export
@@ -21,10 +28,16 @@ import { exists, mapValues } from '../runtime';
 export interface InlineResponse2002 {
     /**
      * 
-     * @type {boolean}
+     * @type {DenLightLightIdHsl}
      * @memberof InlineResponse2002
      */
-    ok: boolean;
+    hsl: DenLightLightIdHsl;
+    /**
+     * 
+     * @type {number}
+     * @memberof InlineResponse2002
+     */
+    period?: number;
 }
 
 export function InlineResponse2002FromJSON(json: any): InlineResponse2002 {
@@ -37,7 +50,8 @@ export function InlineResponse2002FromJSONTyped(json: any, ignoreDiscriminator: 
     }
     return {
         
-        'ok': json['ok'],
+        'hsl': DenLightLightIdHslFromJSON(json['hsl']),
+        'period': !exists(json, 'period') ? undefined : json['period'],
     };
 }
 
@@ -50,7 +64,8 @@ export function InlineResponse2002ToJSON(value?: InlineResponse2002 | null): any
     }
     return {
         
-        'ok': value.ok,
+        'hsl': DenLightLightIdHslToJSON(value.hsl),
+        'period': value.period,
     };
 }
 

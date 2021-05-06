@@ -34,6 +34,57 @@
         }
       }
     },
+    "/den/light": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Default Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "lightId": {
+                        "type": "string"
+                      },
+                      "label": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "lightId",
+                      "label"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/den/light/{lightId}/info": {
+      "get": {
+        "parameters": [
+          {
+            "in": "path",
+            "name": "lightId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Default Response"
+          }
+        }
+      }
+    },
     "/den/light/{lightId}": {
       "post": {
         "requestBody": {
@@ -43,12 +94,33 @@
                 "type": "object",
                 "additionalProperties": false,
                 "properties": {
-                  "color": {
-                    "type": "string"
+                  "hsl": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "h": {
+                        "type": "number"
+                      },
+                      "s": {
+                        "type": "number"
+                      },
+                      "l": {
+                        "type": "number"
+                      }
+                    },
+                    "required": [
+                      "h",
+                      "s",
+                      "l"
+                    ]
+                  },
+                  "period": {
+                    "minimum": 100,
+                    "type": "integer"
                   }
                 },
                 "required": [
-                  "color"
+                  "hsl"
                 ]
               }
             }
@@ -73,12 +145,33 @@
                   "type": "object",
                   "additionalProperties": false,
                   "properties": {
-                    "color": {
-                      "type": "string"
+                    "hsl": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "h": {
+                          "type": "number"
+                        },
+                        "s": {
+                          "type": "number"
+                        },
+                        "l": {
+                          "type": "number"
+                        }
+                      },
+                      "required": [
+                        "h",
+                        "s",
+                        "l"
+                      ]
+                    },
+                    "period": {
+                      "minimum": 100,
+                      "type": "integer"
                     }
                   },
                   "required": [
-                    "color"
+                    "hsl"
                   ]
                 }
               }
@@ -107,6 +200,7 @@
                   "additionalProperties": false,
                   "properties": {
                     "ok": {
+                      "const": true,
                       "type": "boolean"
                     }
                   },

@@ -3,3 +3,8 @@ http:
   port: 3001
   corsOrigins:
     - http://localhost:3000
+lights:
+  - lightId: remembrall
+    label: Remembrall
+    kind: lifx
+    ipv4: "192.168.0.110"

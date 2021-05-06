@@ -16,39 +16,46 @@ import { exists, mapValues } from '../runtime';
 /**
  * 
  * @export
- * @interface InlineResponse2001
+ * @interface DenLightLightIdHsl
  */
-export interface InlineResponse2001 {
+export interface DenLightLightIdHsl {
     /**
      * 
-     * @type {string}
-     * @memberof InlineResponse2001
+     * @type {number}
+     * @memberof DenLightLightIdHsl
      */
-    lightId: string;
+    h: number;
     /**
      * 
-     * @type {string}
-     * @memberof InlineResponse2001
+     * @type {number}
+     * @memberof DenLightLightIdHsl
      */
-    label: string;
+    s: number;
+    /**
+     * 
+     * @type {number}
+     * @memberof DenLightLightIdHsl
+     */
+    l: number;
 }
 
-export function InlineResponse2001FromJSON(json: any): InlineResponse2001 {
-    return InlineResponse2001FromJSONTyped(json, false);
+export function DenLightLightIdHslFromJSON(json: any): DenLightLightIdHsl {
+    return DenLightLightIdHslFromJSONTyped(json, false);
 }
 
-export function InlineResponse2001FromJSONTyped(json: any, ignoreDiscriminator: boolean): InlineResponse2001 {
+export function DenLightLightIdHslFromJSONTyped(json: any, ignoreDiscriminator: boolean): DenLightLightIdHsl {
     if ((json === undefined) || (json === null)) {
         return json;
     }
     return {
         
-        'lightId': json['lightId'],
-        'label': json['label'],
+        'h': json['h'],
+        's': json['s'],
+        'l': json['l'],
     };
 }
 
-export function InlineResponse2001ToJSON(value?: InlineResponse2001 | null): any {
+export function DenLightLightIdHslToJSON(value?: DenLightLightIdHsl | null): any {
     if (value === undefined) {
         return undefined;
     }
@@ -57,8 +64,9 @@ export function InlineResponse2001ToJSON(value?: InlineResponse2001 | null): any
     }
     return {
         
-        'lightId': value.lightId,
-        'label': value.label,
+        'h': value.h,
+        's': value.s,
+        'l': value.l,
     };
 }
 

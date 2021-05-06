@@ -20,7 +20,13 @@ const TestApiPage: FunctionComponent = () => {
             onClick={() =>
               postLightState.mutate({
                 lightId: `test id`,
-                inlineObject: { color: `#abcdef` },
+                inlineObject: {
+                  hsl: {
+                    h: 241,
+                    s: 1,
+                    l: 0.5,
+                  },
+                },
               })
             }
           >
