@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 4000",
     "postinstall": "npm run dev:oas:install",
     "dev:oas:fetch-spec": "ts-node src/scripts/fetch-oas-spec.ts --in http://localhost:3001/oas/json --out oas.json",
     "dev:oas:gen-client": "openapi-generator-cli generate",
@@ -46,6 +46,7 @@
     "eslint-plugin-prettier": "^3.4.0",
     "eslint-plugin-react": "^7.23.2",
     "node-fetch": "^2.6.1",
+    "npm-check-updates": "^11.5.10",
     "prettier": "^2.2.1",
     "ts-node": "^9.1.1",
     "typescript": "^4.2.4",

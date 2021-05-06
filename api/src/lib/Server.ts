@@ -20,5 +20,5 @@ export const start = async (config: Config): Promise<void> => {
 
   app.register(routes({ upSince: new Date() }));
 
-  await app.listen(config.http.port);
+  await app.listen(config.http.port, config.http.host);
 };
