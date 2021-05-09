@@ -1,7 +1,7 @@
 #!/bin/env node
 
 import { readFromEnv } from "./lib/schemas/Config";
-import { start } from "./lib/Server";
+import { start } from "./lib/Controller";
 
 const main = async (): Promise<void> => {
   const config = await readFromEnv();
