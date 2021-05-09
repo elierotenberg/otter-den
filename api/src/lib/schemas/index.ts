@@ -2,7 +2,7 @@ import { Static } from "@sinclair/typebox";
 import Ajv from "ajv";
 import addFormats from "ajv-formats";
 
-const ajv = addFormats(new Ajv(), [
+const ajv = addFormats(new Ajv({ strict: true }), [
   "date-time",
   "time",
   "date",
@@ -22,16 +22,15 @@ const ajv = addFormats(new Ajv(), [
   .addKeyword("modifier");
 
 export function assert<T>(input: unknown, Type: T): asserts input is Static<T> {
-  ajv.validate(Type, input);
+  const validate = ajv.compile(Type);
+  if (!validate(input)) {
+    console.error(validate.errors);
+    throw new TypeError("validation error");
+  }
 }
 
 export function check<T>(input: unknown, Type: T): input is Static<T> {
-  try {
-    ajv.validate(Type, input);
-    return true;
-  } catch {
-    return false;
-  }
+  return ajv.validate(Type, input);
 }
 
 export const filter = <T>(Type: T) =>

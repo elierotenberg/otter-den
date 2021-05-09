@@ -1,14 +1,16 @@
 import { emitKeypressEvents } from "readline";
 
+import puppeteer from "puppeteer-extra";
+import StealthPlugin from "puppeteer-extra-plugin-stealth";
+
 import { Config } from "./schemas/Config";
 import { Lifx } from "./Lifx";
 import { createHttpServer } from "./http/HttpServer";
 import { KeyboardServer } from "./keyboard/KeyboardServer";
 
-export const start = async (config: Config): Promise<void> => {
-  console.log(
-    config.lights.map((light) => (light.kind === "lifx" ? light.ipv4 : null)),
-  );
+puppeteer.use(StealthPlugin());
+
+export const serve = async (config: Config): Promise<void> => {
   const lifx = new Lifx({
     debug: false,
     lights: config.lights
@@ -25,7 +27,11 @@ export const start = async (config: Config): Promise<void> => {
     upSince: new Date(),
   });
 
-  const keyboard = new KeyboardServer({ lights: config.lights, lifx });
+  const keyboard = new KeyboardServer({
+    lights: config.lights,
+    lifx,
+    chromium: config.chromium,
+  });
 
   emitKeypressEvents(process.stdin);
   if (process.stdin.isTTY) {
