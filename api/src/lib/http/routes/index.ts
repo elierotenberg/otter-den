@@ -2,14 +2,14 @@ import { FastifyInstance } from "fastify";
 import { NotFound, BadRequest } from "http-errors";
 import { Type } from "@sinclair/typebox";
 
-import { assert } from "../schemas";
-import { Ack } from "../schemas/Ack";
-import { Light } from "../schemas/Light";
-import { LightParams } from "../schemas/LightParams";
-import { LightState } from "../schemas/LightState";
-import { ServerInfo } from "../schemas/ServerInfo";
-import { Lifx } from "../Lifx";
-import { hslToHsb } from "../Color";
+import { assert } from "../../schemas";
+import { Ack } from "../../schemas/Ack";
+import { Light } from "../../schemas/Light";
+import { LightParams } from "../../schemas/LightParams";
+import { LightState } from "../../schemas/LightState";
+import { ServerInfo } from "../../schemas/ServerInfo";
+import { Lifx } from "../../Lifx";
+import { hslToHsb } from "../../Color";
 
 type RoutesParams = {
   readonly upSince: Date;
