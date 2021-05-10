@@ -5,6 +5,7 @@ import { Static, Type } from "@sinclair/typebox";
 import { load } from "js-yaml";
 
 import { Light } from "./Light";
+import { ChromiumUser } from "./ChromiumUser";
 
 import { assert } from ".";
 
@@ -15,6 +16,10 @@ const Config = Type.Object({
     corsOrigins: Type.Array(Type.String()),
   }),
   lights: Type.Array(Light),
+  chromium: Type.Object({
+    executablePath: Type.Optional(Type.String()),
+    users: Type.Array(ChromiumUser),
+  }),
 });
 
 export type Config = Static<typeof Config>;
